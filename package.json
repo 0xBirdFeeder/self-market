@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@coinbase/coinbase-sdk": "^0.21.0",
+    "@coinbase/onchainkit": "^0.37.8"
+  }
+}

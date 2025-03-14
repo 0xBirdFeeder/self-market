@@ -1,5 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from './providers';
+import { WagmiProvider, createConfig, http } from 'wagmi';
+import { baseSepolia } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
 
 
 export const metadata = {
@@ -15,11 +19,26 @@ const bodyStyle = {
   width: "100vw"
 }
 
+const wagmiConfig = createConfig({
+  chains: [baseSepolia],
+  connectors: [
+    coinbaseWallet({
+      appName: 'onchainkit',
+    }),
+  ],
+  ssr: true,
+  transports: {
+    [baseSepolia.id]: http(),
+  },
+});
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body style={bodyStyle}>
+      <Providers>
         {children}
+      </Providers>
       </body>
     </html>
   );
