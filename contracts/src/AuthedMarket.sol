@@ -1,8 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract Counter {
-    uint256 public number;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+contract AuthedMarket {
+    IERC20 public operatingToken;
+
+    constructor(address _operatingTokenAddress) {
+
+    }
 
     function setNumber(uint256 newNumber) public {
         number = newNumber;
