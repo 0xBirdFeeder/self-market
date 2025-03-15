@@ -21,6 +21,7 @@ func New(p *handlers.ProofService, o *handlers.OrderService) *chi.Mux {
 	}))
 
 	r.Post("/callback", p.ProofCallback)
+	r.Get("/proof", p.GetProof)
 
 	return r
 }

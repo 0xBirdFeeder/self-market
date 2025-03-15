@@ -1,16 +1,33 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import  QRCode from '@/components/QRCode';
+import dynamic from "next/dynamic";
+import WalletLogin from '@/components/WalletLogin'
+import { getAccount } from "@wagmi/core";
+import { wagmiConfig, useUserContext } from "@/app/providers"
+import { useOnchainKit } from '@coinbase/onchainkit'
 
 function Home () {
-  const [userId, setUserId] = useState(0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2);
+  const { userId, setUserId } = useUserContext();
   const [isDriver, setIsDriver] = useState(false);
+  const { sessionId } = useOnchainKit()
+
+  useEffect(() => {
+    console.log("re", sessionId, address)
+    const account = getAccount(wagmiConfig)
+    if(account.address) {
+      setUserId(account.address)
+    }
+  }, [sessionId])
+
+
+  const DynamicQR = dynamic(() => import('@/components/QRCode'), {ssr: false})
 
   return (
     <>
-      {true && userId && <QRCode userId={"0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2"} isDriver={isDriver}/>}
+      {!userId && <WalletLogin />}
+      {userId && <DynamicQR userId={userId} isDriver={isDriver}/>}
     </>
   )
 

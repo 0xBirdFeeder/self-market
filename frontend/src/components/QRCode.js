@@ -1,5 +1,6 @@
 "use client"
 import SelfQRcodeWrapper, { SelfAppBuilder, SelfQRcode } from '@selfxyz/qrcode';
+import fetchSelfProof from '@/utils/fetchSelfProof'
 
 function QRCode({userId, isDriver}) {
 
@@ -32,6 +33,7 @@ function QRCode({userId, isDriver}) {
           onSuccess={() => {
             // Handle successful verification
             console.log("Verification successful!");
+            fetchSelfProof(userId)
             // Redirect or update UI
           }}
           size={350}

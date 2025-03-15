@@ -19,6 +19,11 @@ func main() {
 	pdb := db.InitDB("proof")
 
 	proofDb := db.Proof(pdb)
+	err := proofDb.CreateTables()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	orderDb := db.Order(odb)
 	orderBook := order.NewOrderListener(odb)
@@ -33,7 +38,7 @@ func main() {
 	go orderBook.StartOrderListener()
 
 	fmt.Printf("now listening on port %s\n", port)
-	err := http.ListenAndServe(fmt.Sprintf(":%s", port), r)
+	err = http.ListenAndServe(fmt.Sprintf(":%s", port), r)
 	if err != nil {
 		fmt.Println(err)
 	}

@@ -32,13 +32,13 @@ func (p *ProofDB) SaveProof(address string, raw string) error {
 
 	_, err := p.db.Exec(`
 		INSERT INTO proofs
-			(address, text)
+			(address, raw)
 		VALUES
 			($1, $2)
 		ON CONFLICT
 			(address)
 		DO UPDATE SET
-			text = $2
+			raw = $2
 		WHERE
 			address = $1;
 	`, address, raw)
@@ -52,11 +52,12 @@ func (p *ProofDB) SaveProof(address string, raw string) error {
 func (p *ProofDB) GetProof(address string) (string, error) {
 	row := p.db.QueryRow(`
 		SELECT
-			text
+			raw
 		FROM
 			proofs
 		WHERE
-			address = $1;
+			address = $1
+		COLLATE NOCASE;
 	`, address)
 
 	var proof string
