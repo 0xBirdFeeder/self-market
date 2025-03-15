@@ -26,7 +26,7 @@ func main() {
 	}
 
 	orderDb := db.Order(odb)
-	orderBook := order.NewOrderListener(odb)
+	orderBook := order.NewOrderListener(orderDb)
 
 	p := handlers.NewProofService(proofDb)
 	o := handlers.NewOrderService(orderDb)
