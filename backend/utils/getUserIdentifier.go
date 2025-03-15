@@ -7,8 +7,12 @@ import (
 
 const VC_AND_DISCLOSE_USER_IDENTIFIER_INDEX = 20
 
-func GetUserIdentifier(publicSignals map[int]int64) string {
-	return castToUserIdentifier(big.NewInt(publicSignals[VC_AND_DISCLOSE_USER_IDENTIFIER_INDEX]))
+func GetUserIdentifier(publicSignals []string) (string, bool) {
+
+	bigInt := new(big.Int)
+	_, ok := bigInt.SetString(publicSignals[VC_AND_DISCLOSE_USER_IDENTIFIER_INDEX], 10)
+
+	return castToUserIdentifier(bigInt), ok
 }
 
 func castToUserIdentifier(i *big.Int) string {
