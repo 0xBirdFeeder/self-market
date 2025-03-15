@@ -10,7 +10,7 @@ function QRCode({userId, isDriver}) {
     const selfApp = new SelfAppBuilder({
       appName: "My App",
       scope: "my-app-scope",
-      endpoint: "http://7fa5-198-27-189-146.ngrok-free.app/callback",
+      endpoint: "NEXT_PUBLIC_BACKEND_SERVER/callback",
       userId: "0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2",
       userIdType: "hex",
       // Optional disclosure requirements
@@ -26,8 +26,8 @@ function QRCode({userId, isDriver}) {
 
     return (
       <div className="verification-container">
-        <h1>Verify Your Identity</h1>
-        <p>Scan this QR code with the Self app to verify your identity</p>
+        <h1 className="text-xl text-gray-500 text-center font-bold" >Verify Your Identity</h1>
+        <p className="text-l text-gray-500 text-center font-semibold mb-8">Scan this QR code with the Self app to verify your identity</p>
         <SelfQRcodeWrapper
           selfApp={selfApp}
           onSuccess={() => {
@@ -38,10 +38,6 @@ function QRCode({userId, isDriver}) {
           }}
           size={350}
         />
-
-        <p className="text-sm text-gray-500">
-          User ID: {userId.substring(0, 8)}...
-        </p>
       </div>
     );
 }

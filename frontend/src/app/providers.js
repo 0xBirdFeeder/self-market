@@ -33,7 +33,14 @@ export function Providers({ children }) {
       <OnchainKitProvider
         apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
         chain={baseSepolia} // add baseSepolia for testing
-        config={{wallet: {display: 'modal'}}}
+        config={{
+          wallet: {display: 'modal'},
+          appearance: {
+            mode: 'auto', // 'auto' | 'light' | 'dark'
+            theme: 'hacker'
+        },
+      }
+      }
       >
         <WagmiProvider config={wagmiConfig}>
               {userId && <Navbar />}

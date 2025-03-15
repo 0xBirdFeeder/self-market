@@ -7,6 +7,7 @@ import WalletLogin from '@/components/WalletLogin'
 import { getAccount } from "@wagmi/core";
 import { wagmiConfig, useUserContext } from "@/app/providers"
 import { useOnchainKit } from '@coinbase/onchainkit'
+import '@coinbase/onchainkit/styles.css';
 
 function Home () {
   const { userId, setUserId } = useUserContext();
@@ -14,7 +15,6 @@ function Home () {
   const { sessionId } = useOnchainKit()
 
   useEffect(() => {
-    console.log("re", sessionId, address)
     const account = getAccount(wagmiConfig)
     if(account.address) {
       setUserId(account.address)
