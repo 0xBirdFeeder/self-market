@@ -5,13 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import  QRCode from '@/components/QrCode';
 
 function Home () {
-  const [userId, setUserId] = useState(uuidv4());
+  const [userId, setUserId] = useState(0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2);
   const [isDriver, setIsDriver] = useState(false);
 
   return (
     <>
-      <button onClick={() => { setIsDriver(!isDriver) }}>change</button>
-      {true && userId && <QRCode userId={userId} isDriver={isDriver}/>}
+      {true && userId && <QRCode userId={"0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2"} isDriver={isDriver}/>}
     </>
   )
 

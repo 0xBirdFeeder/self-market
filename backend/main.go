@@ -28,7 +28,7 @@ func main() {
 
 	r := router.New(p, o)
 
-	port := os.Getenv("port")
+	port := os.Getenv("PORT")
 
 	go orderBook.StartOrderListener()
 

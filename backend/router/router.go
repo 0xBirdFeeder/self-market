@@ -20,7 +20,7 @@ func New(p *handlers.ProofService, o *handlers.OrderService) *chi.Mux {
 		MaxAge:           300,
 	}))
 
-	r.Get("/callback", p.ProofCallback)
+	r.Post("/callback", p.ProofCallback)
 
 	return r
 }
