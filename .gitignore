@@ -7,3 +7,4 @@ go.sum
 **.ico
 **.png
 data
+.DS_STORE
