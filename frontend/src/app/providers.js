@@ -25,8 +25,9 @@ export const wagmiConfig = createConfig({
 export function Providers({ children }) {
 
   const [userId, setUserId] = useState()
+  const [authed, setAuthed] = useState()
 
-  const userContextValue = { userId, setUserId }
+  const userContextValue = { userId, setUserId, authed, setAuthed }
 
   return (
     <UserContext.Provider value={userContextValue}>

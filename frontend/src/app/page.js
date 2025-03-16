@@ -8,9 +8,10 @@ import { getAccount } from "@wagmi/core";
 import { wagmiConfig, useUserContext } from "@/app/providers"
 import { useOnchainKit } from '@coinbase/onchainkit'
 import '@coinbase/onchainkit/styles.css';
+import SubmitBidButton from "@/components/SubmitBidButton"
 
 function Home () {
-  const { userId, setUserId } = useUserContext();
+  const { userId, setUserId, authed } = useUserContext();
   const [isDriver, setIsDriver] = useState(false);
   const { sessionId } = useOnchainKit()
 
@@ -27,7 +28,8 @@ function Home () {
   return (
     <>
       {!userId && <WalletLogin />}
-      {userId && <DynamicQR userId={userId} isDriver={isDriver}/>}
+      {(userId && !authed) && <DynamicQR userId={userId} isDriver={isDriver}/>}
+      {(userId && authed) && <SubmitBidButton />}
     </>
   )
 

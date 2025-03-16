@@ -1,21 +1,37 @@
 "use client"
 import SelfQRcodeWrapper, { SelfAppBuilder, SelfQRcode } from '@selfxyz/qrcode';
 import fetchSelfProof from '@/utils/fetchSelfProof'
+import submitAuth from '@/utils/submitAuth'
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi"
+import abi from "@/abi.json"
+import { useUserContext } from "@/app/providers"
+import { useEffect } from "react"
 
 function QRCode({userId, isDriver}) {
 
+  const { setAuthed } = useUserContext()
+
+    const { data: hash, writeContract, error, isPending, isError, isIdle, isSuccess } = useWriteContract()
+
+    useEffect(() => {
+      console.log(hash)
+      setAuthed(isSuccess)
+      console.log("confirmed: " + isSuccess + ", error: " + error +", iserror: " + isError + ", pending: " + isPending + ", isIdle: " + isIdle)
+    }, [isSuccess, error, isPending, isError, isIdle])
+
+    // const { data: hash, writeContract } = useWriteContract()
     if (!userId) return <div></div>;
 
     // Create a SelfApp instance using the builder pattern
     const selfApp = new SelfAppBuilder({
-      appName: "My App",
-      scope: "my-app-scope",
-      endpoint: "NEXT_PUBLIC_BACKEND_SERVER/callback",
-      userId: "0x9e25Fe3734338F2cBF23e765a892a61AD23D19b2",
+      appName: "BirdFeeder",
+      scope: 1,
+      endpoint: process.env.NEXT_PUBLIC_BACKEND_SERVER + "/callback",
+      userId: userId,
       userIdType: "hex",
       // Optional disclosure requirements
       disclosures: {
-        excludedCountries: ["IRN", "PRK"],
+        ofac: true
       },
     }).build();
 
@@ -30,10 +46,11 @@ function QRCode({userId, isDriver}) {
         <p className="text-l text-gray-500 text-center font-semibold mb-8">Scan this QR code with the Self app to verify your identity</p>
         <SelfQRcodeWrapper
           selfApp={selfApp}
-          onSuccess={() => {
+          onSuccess={async () => {
             // Handle successful verification
             console.log("Verification successful!");
-            fetchSelfProof(userId)
+            const data = await fetchSelfProof(userId);
+            submitAuth(data, writeContract)
             // Redirect or update UI
           }}
           size={350}

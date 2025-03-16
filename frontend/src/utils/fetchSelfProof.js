@@ -1,5 +1,5 @@
 const fetchSelfProof = async (address) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_BACKEND_SERVER
+  const res = await fetch("http://localhost:8080"
     + "/proof?address="
     + address
   )
